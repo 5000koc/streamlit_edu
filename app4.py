@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 def main():
-    st.title('내 앱 대시보드') # st.tile(내용)은 웹브라우저에서 표시를 할려고 할 때 사용함
+    st.title('내 앱 대시보드') # st.title(내용)은 웹브라우저에서 표시를 할려고 할 때 사용함
 
     df = pd.read_csv('data/iris.csv')
 
@@ -24,7 +24,7 @@ def main():
     # 오름차순정렬, 내림차순정렬 두가지 옵션 중 하나를 선택하도록 만들자
 
     status = st.radio('정렬을 선택하세요', ['오름차순','내림차순'])
-    print(status)
+    # print(status)
 
     if status == '오름차순' :
         st.dataframe(df.sort_values('petal_length'))
@@ -52,6 +52,23 @@ def main():
         st.text('이건 뭐지?')
     elif selected_lang == 'PHP':
         st.text('웹브라우저에서 많이 썼던 것으로 기억')
+
+    # 데이터프레임의 컬럼이름을 보여주고, 유저가 컬럼을 선택하면 해당컬럼만 가져와서 데이터프레임을 보여주고 싶다
+    # 멀티셀렉트박스로 만들어보자
+    
+
+    column_list = st.multiselect('컬럼을 선택하세요', df.columns)
+    print(column_list) 
+
+    # 선택한 컬럼으로 데이터프레임을 보여주기
+    st.dataframe(df[column_list])
+
+    # 슬라이더
+    age = st.slider('나이', min_value=10, max_value=110, value=25)
+    st.text('나이는' + str(age) + '입니다')
+
+    with st.expander('hello'):
+        st.text('안녕하세요')
 
 if __name__ == '__main__':
     main() 
